@@ -1,0 +1,209 @@
+{
+	"info": {
+		"_postman_id": "45336796-2359-4a30-bce0-44b30723dda1",
+		"name": "Hangman API",
+		"description": "# Introduction\nBackend API for the hangman game.\n\n# Authentication\nAuthentication via JWT access token. \nYou can obtain it from the login or register API request. Place it in x-access-token header.\n\n# Error Codes\n400 - Wrong user input\n500 - Internal server error\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "620629"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"gdj@weply.chat\",\n    \"password\": \"pass123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/user/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user",
+						"login"
+					]
+				},
+				"description": "ERROR\n\nWrong username or password\n\n``` json\n{\n    \"errors\": {\n        \"user\": \"invalid_email_or_password\"\n    }\n}\n\n```\n\nSUCCESS\n\n``` json\n{\n    \"data\": {\n        \"user\": {\n            \"id\": 1,\n            \"email\": \"gdj@weply.chat\",\n            \"name\": \"Front End\"\n        },\n        \"accessToken\": {\n            \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6ImdkakB3ZXBseS5jaGF0IiwibmFtZSI6IkZyb250IEVuZCJ9LCJpYXQiOjE2OTUzMTE2MzcsImV4cCI6MTY5NTMxODgzN30.B8PUeIeUIEY5e1a-sLL81-fmin3l0tDyUT3n3bhSPPc\",\n            \"expirationDate\": \"2023-09-21T17:53:57.000Z\"\n        }\n    }\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"gdj@weply.chat\",\n    \"password\": \"pass123\",\n    \"passwordConfirmation\": \"pass123\",\n    \"firstName\": \"Front\",\n    \"lastName\": \"End\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/user",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"user"
+					]
+				},
+				"description": "ERROR\n\n``` json\n{\n    \"errors\": [\n        {\n            \"email\": \"required\"\n        },\n        {\n            \"password\": \"required\"\n        },\n        {\n            \"firstName\": \"required\"\n        },\n        {\n            \"lastName\": \"required\"\n        }\n    ]\n}\n\n```\n\n``` json\n{\n    \"errors\": {\n        \"passwordConfirmation\": \"password_confirmation_do_not_match\"\n    }\n}\n\n```\n\n``` json\n{\n    \"errors\": {\n        \"email\": \"already_exists\"\n    }\n}\n\n```\n\nSUCCESS\n\n``` json\n{\n    \"data\": {\n        \"user\": {\n            \"id\": 2,\n            \"email\": \"gdj@weply.dk\",\n            \"name\": \"Front End\"\n        },\n        \"accessToken\": {\n            \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJlbWFpbCI6ImdkakB3ZXBseS5kayIsIm5hbWUiOiJGcm9udCBFbmQifSwiaWF0IjoxNjk1MzExOTI1LCJleHAiOjE2OTUzMTkxMjV9.3U1kzpgtmMXSkcDLttihVL7zc5LVRNceEmOLALSJs54\",\n            \"expirationDate\": \"2023-09-21T17:58:45.000Z\"\n        }\n    }\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "game",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNCwiZW1haWwiOiJjYW5kaWRhdGVAd2VwbHkuY2hhdCIsIm5hbWUiOiJGcm9udCBFbmQifSwiaWF0IjoxNjk1MjMyMzc2LCJleHAiOjE2OTUyMzk1NzZ9.W1yUhMLGj4HTH1m-RF2OnDPw6-mk8ZdcXaXVuL2Zpqg",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/game/9",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"game",
+						"9"
+					]
+				},
+				"description": "ERROR\n\n``` json\n{\n    \"errors\": {\n        \"token\": \"invalid_access_token\"\n    }\n}\n\n```\n\nSUCCESS\n\n``` json\n{\n    \"data\": {\n        \"id\": 1,\n        \"word\": \"angular\",\n        \"playedLetters\": \"u,a,b,c,e,q,r,t,y,f,s\",\n        \"status\": 2,\n        \"win\": 0,\n        \"createdAt\": \"2023-09-21T16:00:34.000Z\",\n        \"updatedAt\": \"2023-09-21T16:05:29.000Z\"\n    }\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "list",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJlbWFpbCI6ImdkakB3ZXBseS5kayIsIm5hbWUiOiJGcm9udCBFbmQifSwiaWF0IjoxNjk1MzExOTI1LCJleHAiOjE2OTUzMTkxMjV9.3U1kzpgtmMXSkcDLttihVL7zc5LVRNceEmOLALSJs54",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/game/list?page=1&limit=10",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"game",
+						"list"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				},
+				"description": "Return a list of played games. Empty list if no games played yet.\n\nSUCCESS\n\n``` json\n{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"word\": \"angular\",\n            \"playedLetters\": \"u,a,b,c,e,q,r,t,y,f,s\",\n            \"status\": 2,\n            \"win\": 0,\n            \"createdAt\": \"2023-09-21T16:00:34.000Z\",\n            \"updatedAt\": \"2023-09-21T16:05:29.000Z\"\n        },\n        {\n            \"id\": 2,\n            \"word\": \"website\",\n            \"playedLetters\": \"z,w,e,b,s,i,t\",\n            \"status\": 2,\n            \"win\": 1,\n            \"createdAt\": \"2023-09-21T16:05:46.000Z\",\n            \"updatedAt\": \"2023-09-21T16:06:04.000Z\"\n        }\n    ]\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "start game",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNCwiZW1haWwiOiJjYW5kaWRhdGVAd2VwbHkuY2hhdCIsIm5hbWUiOiJGcm9udCBFbmQifSwiaWF0IjoxNjk1MjMyMzc2LCJleHAiOjE2OTUyMzk1NzZ9.W1yUhMLGj4HTH1m-RF2OnDPw6-mk8ZdcXaXVuL2Zpqg",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/game",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"game"
+					]
+				},
+				"description": "ERROR\n\n``` json\n{\n    \"errors\": {\n        \"token\": \"invalid_access_token\"\n    }\n}\n\n```\n\n``` json\n{\n    \"errors\": {\n        \"game\": \"there_is_game_in_progress\"\n    }\n}\n\n```\n\nSUCCESS\n\n``` json\n{\n    \"data\": {\n        \"id\": 1,\n        \"word\": \"angular\",\n        \"playedLetters\": null,\n        \"status\": 1,\n        \"win\": 0,\n        \"createdAt\": \"2023-09-21T16:00:34.000Z\",\n        \"updatedAt\": \"2023-09-21T16:00:34.000Z\"\n    }\n}\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "game in progress",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNCwiZW1haWwiOiJjYW5kaWRhdGVAd2VwbHkuY2hhdCIsIm5hbWUiOiJGcm9udCBFbmQifSwiaWF0IjoxNjk1MjMyMzc2LCJleHAiOjE2OTUyMzk1NzZ9.W1yUhMLGj4HTH1m-RF2OnDPw6-mk8ZdcXaXVuL2Zpqg",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/game/inProgress",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"game",
+						"inProgress"
+					]
+				},
+				"description": "Returns the current game in progress. An empty object if no game in progress.\n\nERROR\n\n``` json\n{\n    \"errors\": {\n        \"token\": \"invalid_access_token\"\n    }\n}\n\n```\n\nSUCCESS\n\n``` json\n{\n    \"data\": {\n        \"id\": 1,\n        \"word\": \"angular\",\n        \"playedLetters\": null,\n        \"status\": 1,\n        \"win\": 0,\n        \"createdAt\": \"2023-09-21T16:00:34.000Z\",\n        \"updatedAt\": \"2023-09-21T16:00:34.000Z\"\n    }\n}\n\n```\n\nstatus = 1: game is in progress  \nstatus = 2: game finished\n\nwin = 0: game lost  \nwin = 1: game won"
+			},
+			"response": []
+		},
+		{
+			"name": "check letter",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxNCwiZW1haWwiOiJjYW5kaWRhdGVAd2VwbHkuY2hhdCIsIm5hbWUiOiJGcm9udCBFbmQifSwiaWF0IjoxNjk1MjMyMzc2LCJleHAiOjE2OTUyMzk1NzZ9.W1yUhMLGj4HTH1m-RF2OnDPw6-mk8ZdcXaXVuL2Zpqg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"letter\": \"u\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/game/checkLetter",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"game",
+						"checkLetter"
+					]
+				},
+				"description": "ERROR\n\n``` json\n{\n    \"errors\": {\n        \"game\": \"no_game_in_progress\"\n    }\n}\n\n```\n\n``` json\n{\n    \"errors\": {\n        \"letter\": \"letter_is_required\"\n    }\n}\n\n```\n\n``` json\n{\n    \"errors\": {\n        \"letter\": \"should_be_one_character_long\"\n    }\n}\n\n```\n\n``` json\n{\n    \"errors\": {\n        \"letter\": \"invalid\"\n    }\n}\n\n```\n\n``` json\n{\n    \"errors\": {\n        \"letter\": \"already_played\"\n    }\n}\n\n```\n\nSUCCESS\n\n``` json\n{\n    \"data\": {\n        \"id\": 3,\n        \"word\": \"angular\",\n        \"playedLetters\": \"a,n,g,z,e,b\",\n        \"status\": 1,\n        \"win\": 0,\n        \"createdAt\": \"2023-09-21T16:08:06.000Z\",\n        \"updatedAt\": \"2023-09-21T16:09:13.000Z\"\n    }\n}\n\n```"
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,14 @@
+<form [formGroup]="loginForm">
+    <div>
+        Email
+        <input formControlName="email" type="email">
+    </div>
+    <div>
+        Password
+        <input formControlName="password" type="password">
+    </div>
+</form>
+
+<button (click)="onLogin()">
+    Login
+</button>

@@ -1,0 +1,28 @@
+<form [formGroup]="registerForm">
+    <div>
+        Email
+        <input formControlName="email" type="email">
+    </div>
+    <div>
+        Password
+        <input formControlName="password" type="password">
+    </div>
+    <div>
+        Password Confirmation
+        <input formControlName="passwordConfirmation" type="password">
+    </div>
+
+    <div>
+        First Name
+        <input formControlName="firstName" type="text">
+    </div>
+
+    <div>
+        Last Name
+        <input formControlName="lastName" type="text">
+    </div>
+</form>
+
+<button (click)="onRegister()">
+    Register
+</button>
